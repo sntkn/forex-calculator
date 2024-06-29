@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import * as styles from './App.css.ts';
 
 const ForexCalculator = () => {
   const [purchaseAmount, setPurchaseAmount] = useState('0');
@@ -37,29 +38,45 @@ const ForexCalculator = () => {
   };
 
   return (
-    <div>
-      <h2>譲渡損益と為替差損益計算ツール</h2>
-      <div>
-        <label>ドル購入金額:</label>
-        <input type="number" value={purchaseAmount} onChange={(e) => setPurchaseAmount(e.target.value)} />
+    <div className={styles.card}>
+      <h2 className={styles.title}>譲渡損益と為替差損益計算ツール</h2>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>ドル購入金額:</label>
+        <input type="number" className={styles.input} value={purchaseAmount} onChange={(e) => setPurchaseAmount(e.target.value)} />
       </div>
-      <div>
-        <label>購入時のドル円レート:</label>
-        <input type="number" value={purchaseRate} onChange={(e) => setPurchaseRate(e.target.value)} />
+      <div className={styles.formGroup}>
+        <label className={styles.label}>購入時のドル円レート:</label>
+        <input type="number" className={styles.input} value={purchaseRate} onChange={(e) => setPurchaseRate(e.target.value)} />&nbsp;円 / 1ドル
       </div>
-      <div>
-        <label>ドル売却金額:</label>
-        <input type="number" value={saleAmount} onChange={(e) => setSaleAmount(e.target.value)} />
+      <div className={styles.formGroup}>
+        <label className={styles.label}>ドル売却金額:</label>
+        <input type="number" className={styles.input} value={saleAmount} onChange={(e) => setSaleAmount(e.target.value)} />
       </div>
-      <div>
-        <label>売却時のドル円レート:</label>
-        <input type="number" value={saleRate} onChange={(e) => setSaleRate(e.target.value)} />
+      <div className={styles.formGroup}>
+        <label className={styles.label}>売却時のドル円レート:</label>
+        <input type="number" className={styles.input} value={saleRate} onChange={(e) => setSaleRate(e.target.value)} />&nbsp;円 / 1ドル
       </div>
-      <div>
-        {purchaseInYen !== null && <p>購入金額（円換算）: {formatter.format(purchaseInYen)} 円</p>}
-        {saleInYen !== null && <p>売却金額（円換算）: {formatter.format(saleInYen)} 円</p>}
-        {profitLoss !== null && <p>売却損益（円換算）: {formatter.format(profitLoss)} 円</p>}
-        {exchangeProfitLoss !== null && <p>売却為替差損益（円換算）: {formatter.format(exchangeProfitLoss)} 円</p>}
+      <div className={styles.resultContainer}>
+        <table className={styles.resultTable}>
+          <tbody>
+            <tr className={styles.resultRow}>
+              <td className={styles.resultCell}>購入金額（円換算）:</td>
+              <td className={styles.resultCell}>{formatter.format(purchaseInYen)} 円</td>
+            </tr>
+            <tr className={styles.resultRow}>
+              <td className={styles.resultCell}>売却金額（円換算）:</td>
+              <td className={styles.resultCell}>{formatter.format(saleInYen)} 円</td>
+            </tr>
+            <tr className={styles.resultRow}>
+              <td className={styles.resultCell}>売却損益（円換算）:</td>
+              <td className={styles.resultCell}>{formatter.format(profitLoss)} 円</td>
+            </tr>
+            <tr className={styles.resultRow}>
+              <td className={styles.resultCell}>売却為替差損益（円換算）:</td>
+              <td className={styles.resultCell}>{formatter.format(exchangeProfitLoss)} 円</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );
