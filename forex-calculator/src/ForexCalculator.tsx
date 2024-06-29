@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const ForexCalculator = () => {
   const [purchaseAmount, setPurchaseAmount] = useState('0');
@@ -11,7 +11,11 @@ const ForexCalculator = () => {
   const [profitLoss, setProfitLoss] = useState(0);
   const [exchangeProfitLoss, setExchangeProfitLoss] = useState(0);
 
-  const formatter = new Intl.NumberFormat('ja-JP')
+  const formatter = new Intl.NumberFormat('ja-JP');
+
+  useEffect(() => {
+    calculate();
+  }, [purchaseAmount, purchaseRate, saleAmount, saleRate]);
 
   const calculate = () => {
     const purchaseAmountNum = parseFloat(purchaseAmount);
@@ -51,7 +55,6 @@ const ForexCalculator = () => {
         <label>売却時のドル円レート:</label>
         <input type="number" value={saleRate} onChange={(e) => setSaleRate(e.target.value)} />
       </div>
-      <button onClick={calculate}>計算</button>
       <div>
         {purchaseInYen !== null && <p>購入金額（円換算）: {formatter.format(purchaseInYen)} 円</p>}
         {saleInYen !== null && <p>売却金額（円換算）: {formatter.format(saleInYen)} 円</p>}
