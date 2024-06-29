@@ -1,15 +1,17 @@
 import { useState } from 'react';
 
 const ForexCalculator = () => {
-  const [purchaseAmount, setPurchaseAmount] = useState('');
-  const [purchaseRate, setPurchaseRate] = useState('');
-  const [saleAmount, setSaleAmount] = useState('');
-  const [saleRate, setSaleRate] = useState('');
+  const [purchaseAmount, setPurchaseAmount] = useState('0');
+  const [purchaseRate, setPurchaseRate] = useState('0');
+  const [saleAmount, setSaleAmount] = useState('0');
+  const [saleRate, setSaleRate] = useState('0');
 
   const [purchaseInYen, setPurchaseInYen] = useState(0);
   const [saleInYen, setSaleInYen] = useState(0);
   const [profitLoss, setProfitLoss] = useState(0);
   const [exchangeProfitLoss, setExchangeProfitLoss] = useState(0);
+
+  const formatter = new Intl.NumberFormat('ja-JP')
 
   const calculate = () => {
     const purchaseAmountNum = parseFloat(purchaseAmount);
@@ -20,8 +22,8 @@ const ForexCalculator = () => {
     if (!isNaN(purchaseAmountNum) && !isNaN(purchaseRateNum) && !isNaN(saleAmountNum) && !isNaN(saleRateNum)) {
       const purchaseInYenCalc = purchaseAmountNum * purchaseRateNum;
       const saleInYenCalc = saleAmountNum * saleRateNum;
-      const profitLossCalc = (saleAmountNum - purchaseAmountNum) * saleRateNum;
-      const exchangeProfitLossCalc = (saleAmountNum * saleRateNum) - (saleAmountNum * purchaseRateNum);
+      const profitLossCalc = (saleAmountNum * saleRateNum) - (purchaseAmountNum * purchaseRateNum);
+      const exchangeProfitLossCalc = saleAmountNum * (saleRateNum - purchaseRateNum);
 
       setPurchaseInYen(purchaseInYenCalc);
       setSaleInYen(saleInYenCalc);
@@ -51,10 +53,10 @@ const ForexCalculator = () => {
       </div>
       <button onClick={calculate}>計算</button>
       <div>
-        {purchaseInYen !== null && <p>購入金額（円換算）: {purchaseInYen.toFixed(2)} 円</p>}
-        {saleInYen !== null && <p>売却金額（円換算）: {saleInYen.toFixed(2)} 円</p>}
-        {profitLoss !== null && <p>売却損益（円換算）: {profitLoss.toFixed(2)} 円</p>}
-        {exchangeProfitLoss !== null && <p>売却為替差損益（円換算）: {exchangeProfitLoss.toFixed(2)} 円</p>}
+        {purchaseInYen !== null && <p>購入金額（円換算）: {formatter.format(purchaseInYen)} 円</p>}
+        {saleInYen !== null && <p>売却金額（円換算）: {formatter.format(saleInYen)} 円</p>}
+        {profitLoss !== null && <p>売却損益（円換算）: {formatter.format(profitLoss)} 円</p>}
+        {exchangeProfitLoss !== null && <p>売却為替差損益（円換算）: {formatter.format(exchangeProfitLoss)} 円</p>}
       </div>
     </div>
   );
